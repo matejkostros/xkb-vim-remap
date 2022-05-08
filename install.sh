@@ -3,6 +3,8 @@
 # Script for automatic installtion of vim like map to
 # your selected layouts
 
+#set -e # Exit after first error
+
 # Constants
 SYMBOLS="/usr/share/X11/xkb/symbols/"
 ALTGR="altgr_vim" 
@@ -23,58 +25,75 @@ function check_sudo {
         fi
     fi
 }
+
+
 function check_setting {
     grep "${ALTGR}" "${SYMBOLS}${1}" 2>&1 >> /dev/null
-    #if grep "${ALTGR}" "${SYMBOLS}${1}" 2>&1 >> /dev/null; then
     if  [ $? -eq 0 ];then
         echo "\"${ALTGR}\" is set for language \"${1}\""
         return 1
     else
-        echo "\"${ALTGR}\" is not set for language  \"${1}\""
+        echo "\"${ALTGR}\" is not set for language \"${1}\""
         return 0
     fi
 }
 
-function include_keymap_file {
-    sudo sed --in-place=backup "/${BEFORE}/a ${INCLUDE}" ${SYMBOLS}${1}
+
+function set_keymap_file {
+    if [ "${REMOVE}" -eq 0 ]; then
+        echo "Removing vim like kyeboard functionality for \"${1}\" language."
+        sudo sed --in-place "/${INCLUDE}/d" ${SYMBOLS}${1}
+        check_setting $1
+    else
+        if check_setting $1 ; then
+            echo "Installing vim like kyeboard functionality for \"${1}\" language."
+            sudo sed --in-place=.backup "/${BEFORE}/a ${INCLUDE}" ${SYMBOLS}${1}
+            check_setting $1
+        fi
+    fi
 }
 
-# Main 
-check_sudo
 
-if [ -n "$1" ]; then
-    languages=${@}
-    test
-else
+function usage {
     echo "
     No Language given given. At least 1 is required
-    usage: ${0} [<lang1>|<lang2>|...]
+    usage: ${1} [-r] [<lang1>|<lang2>|...]
+
+    -r     removes installed settings
     "
-    exit 0
+}
+
+
+# Main
+
+if [ -n "$1" ]; then
+    if [ "$1" == '-r' ]; then
+        REMOVE=0
+        languages=${@:2}
+    else
+        REMOVE=1
+        languages=${@}
+    fi
+    if [[ "${#languages}" -eq 0 ]]; then
+        echo ${#languages}
+        usage ${0}
+        exit 1
+    fi
+else
+    usage ${0}
+    exit 1
 fi
+
+check_sudo
 
 for language in $languages; do 
     echo "####### Processing language: \"${language}\""
     if [ -f "${SYMBOLS}${language}" ]; then
-        
-        if check_setting $language;then
-            echo "Installing vim like kyeboard functionality for \"$language\" language."
-            include_keymap_file $language
-            check_setting $language
-        fi
-
+            set_keymap_file $language
     else
         echo "There is no \"${language}\" language in \"${SYMBOLS}\""
     fi
     echo 
 done
-#for language in 
-
-
-
-
-
-
-
 
 
