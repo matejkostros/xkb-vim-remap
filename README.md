@@ -13,6 +13,8 @@ Script takes the `altgr_vim` configuration file and either includes it or remove
 
 <b>Note:</b> Script requires superuser privileges, so prepare your `sudo` password.
 
+<b>Note2:</b> For some layouts it is necessary to move the include at the end of the map, which script doesn't support yet. So follow the manual steps in this case
+
 It is also necessary to give execute flag as follows 
 ```shell
 chmod +x install.sh
