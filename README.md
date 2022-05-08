@@ -1,4 +1,8 @@
-# About
+# About altgr_vim
+
+<b>altgr_vim</b> means that you have functionality of `vim` under your Right Alt key. Also, if you review the actual file, the CAPS LOCK is remapped to Right Alt for better ergonomy.
+
+<b>Note:</b> for Windows remapping, you need to utilize [AutoHotkey](https://www.autohotkey.com/) program. Which provides also far more features than this simple remapping mechanism. You can see example of my [AHK specific config](https://github.com/matejkostros/profile-settings/blob/main/ArrowRemap.ahk).
 
 Point of this mechanism is to utilize the power of XKB functionality to remap smaller keyboards to be able to use vim like navigation in almost every linux application.
 It was tested under Fedora 34 running on Wayland however due to nature of XKB it should be compatible with X11 enabled distributions.
