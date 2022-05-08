@@ -32,7 +32,7 @@ It was tested under Fedora 34 running on Wayland however due to nature of XKB it
 - This repository was inspired by askubuntu.com thread [Configure Caps Lock as AltGr and Arrows like in vim](https://askubuntu.com/questions/684459/configure-caps-lock-as-altgr-and-arrows-like-in-vim/898462#898462)
 - To debug your input codes in X session use  `xev` which displays a small windos which if in focus displays all x-events in the console
 - It is not recommended to remap Left Alt, as it is being used by some programs and it could make them less usefull.
-- In general, it should be sufficient to
+- In general, it should be sufficient to go through the xkb symbols files and get inspired, however multikey shortcuts and macros are not supported
 - Solution will not work for virtual consoles
 
 
