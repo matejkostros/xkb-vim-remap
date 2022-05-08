@@ -3,7 +3,42 @@
 Point of this mechanism is to utilize the power of XKB functionality to remap smaller keyboards to be able to use vim like navigation in almost every linux application.
 It was tested under Fedora 34 running on Wayland however due to nature of XKB it should be compatible with X11 enabled distributions.
 
-# Installation
+# Automatic Installation
+There is an install script `install.sh` which is capable of adding or removing your custom remap. 
+Script takes the `altgr_vim` configuration file and either includes it or removes it for the specified language.
+
+<b>Note:</b> Script requires superuser privileges, so prepare your `sudo` password.
+
+It is also necessary to give execute flag as follows 
+```shell
+chmod +x install.sh
+```
+
+## Add configuration
+Following adds the configuration for the current languge
+```shell
+./install.sh ${LANG:0:2}
+```
+
+This will add configuration for Slovak, Hungary and US keyboard layouts
+```shell
+./install.sh sk hu us
+```
+
+## Remove configuration
+Script is also able to remove the includes from keymaps.
+
+This will remove include from US layout
+```shell
+./install.sh -r us
+```
+
+This will remove includes from multiple layouts
+```shell
+./install.sh -r us sk hu
+```
+
+# Manual Installation
 
 1. Clone this repository
 2. Copy `altgr_vim` file to X11 symbols directory
